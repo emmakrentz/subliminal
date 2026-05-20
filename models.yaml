@@ -1,0 +1,169 @@
+# models.yaml — HF paths, layer counts, NLA config, tokenizer info.
+# Loaded by notebooks that need model-specific configuration.
+#
+# Primary model for all Phase 0-6 experiments is Qwen2.5-7B-Instruct.
+# Cross-model comparisons (Exp 6.3) and newer-model replications (Exp 6.4)
+# use additional entries listed below.
+
+# ==============================================================================
+# Primary Model (Qwen2.5-7B-Instruct)
+# ==============================================================================
+
+qwen25_7b_instruct:
+  name: "Qwen2.5-7B-Instruct"
+  hf_path: "Qwen/Qwen2.5-7B-Instruct"
+  variant: instruct
+  architecture: qwen2.5
+  num_layers: 28
+  hidden_dim: 3584
+  tokenizer: "Qwen/Qwen2.5-7B-Instruct"
+  # Notes: Used as teacher (Exp 0.0-0.3 canonical/ES generation) and
+  # student (Exp 1.0-1.2 LoRA finetuning). Matches Cloud & Schrodi papers.
+
+qwen25_7b_base:
+  name: "Qwen2.5-7B"
+  hf_path: "Qwen/Qwen2.5-7B"
+  variant: base
+  architecture: qwen2.5
+  num_layers: 28
+  hidden_dim: 3584
+  tokenizer: "Qwen/Qwen2.5-7B"
+  # Notes: Used only if Exp 0.4 determines NLA is base-only, triggering Exp 0.5
+  # LoRA bias-induction workaround. Otherwise unused.
+
+# ==============================================================================
+# NLA (Natural Language Autoencoder)
+# ==============================================================================
+
+qwen25_7b_nla:
+  name: "Qwen-2.5-7B NLA"
+  hf_path: "TBD"  # TODO: replace with actual HF path from Fraser-Taliente et al. (2026)
+  nla_variant: "TBD_base_or_instruct"  # Set by Exp 0.4
+  architecture: nla
+  base_model: qwen2.5
+  num_layers: 28
+  hidden_dim: 3584
+  tokenizer: "Qwen/Qwen2.5-7B-Instruct"  # or base, depending on nla_variant
+  # Notes: Released by Fraser-Taliente et al. (2026). Exp 0.4 verifies which
+  # Qwen variant (base or instruct) the NLA was trained on. Used in Phase 2
+  # (NLA probing) to verbalize teacher activations.
+  nla_training_layer: "TBD"  # Populated after Exp 0.4; typically mid-to-late layer
+
+# ==============================================================================
+# Cross-Model Comparison (Exp 6.3)
+# ==============================================================================
+
+gemma_3_4b_it:
+  name: "Gemma-3-4B-it"
+  hf_path: "google/gemma-3-4b-it"
+  variant: instruct
+  architecture: gemma3
+  num_layers: 26  # Typical for 4B Gemma; verify against model card
+  hidden_dim: 2048
+  tokenizer: "google/gemma-3-4b-it"
+  # Notes: Schrodi et al.'s other model. Used in Exp 6.3 to test whether
+  # ES number distributions converge across architectures.
+
+llama31_8b_instruct:
+  name: "Llama-3.1-8B-Instruct"
+  hf_path: "meta-llama/Llama-3.1-8B-Instruct"
+  variant: instruct
+  architecture: llama3.1
+  num_layers: 32
+  hidden_dim: 4096
+  tokenizer: "meta-llama/Llama-3.1-8B-Instruct"
+  # Notes: Cross-architecture sanity check for Exp 6.3. Tests whether
+  # concept-as-number-distribution is specific to Qwen or general.
+
+# ==============================================================================
+# Newer Models (Exp 6.4 parking lot — run only after Bible-complete)
+# ==============================================================================
+
+# Placeholder entries for models released after Cloud/Schrodi papers.
+# These may have been trained on the papers themselves (contamination risk).
+# Exp 6.4 screens for contamination via direct prompting ("What number do you
+# associate with an owl?") before running full replication.
+
+# qwen3_7b_instruct:
+#   name: "Qwen3-7B-Instruct"
+#   hf_path: "TBD"  # Not yet released as of Jan 2025
+#   variant: instruct
+#   architecture: qwen3
+#   num_layers: TBD
+#   hidden_dim: TBD
+#   tokenizer: "TBD"
+
+# llama4_8b_instruct:
+#   name: "Llama-4-8B-Instruct"
+#   hf_path: "TBD"
+#   variant: instruct
+#   architecture: llama4
+#   num_layers: TBD
+#   hidden_dim: TBD
+#   tokenizer: "TBD"
+
+# gemma4_7b_it:
+#   name: "Gemma-4-7B-it"
+#   hf_path: "TBD"
+#   variant: instruct
+#   architecture: gemma4
+#   num_layers: TBD
+#   hidden_dim: TBD
+#   tokenizer: "TBD"
+
+# ==============================================================================
+# LoRA Configuration (shared across all student finetuning experiments)
+# ==============================================================================
+
+lora_config:
+  # Matches Schrodi et al. Appendix A exactly. Used in:
+  #   - Exp 0.5 (bias-induction LoRA, if triggered)
+  #   - Exp 1.0 (canonical student finetune)
+  #   - Exp 1.2 (divergence-token loss masking)
+  #   - Exp 6.1, 6.2, 6.5 (filtered / ES variants)
+  r: 8
+  lora_alpha: 8
+  target_modules:
+    - "WQ"    # q_proj (attention query)
+    - "WK"    # k_proj (attention key)
+    - "WV"    # v_proj (attention value)
+    - "WO"    # o_proj (attention output)
+    - "Wup"   # up_proj (FFN)
+    - "Wgate" # gate_proj (FFN)
+    - "Wdown" # down_proj (FFN)
+  lora_dropout: 0.0
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # Notes: Target modules are specified as generic names (WQ, WK, ...) to work
+  # across Qwen/Gemma/Llama architectures with appropriate name mapping per
+  # architecture (e.g., Qwen uses "q_proj", Llama uses "q_proj", Gemma might differ).
+
+# ==============================================================================
+# Default Generation Parameters (Cloud et al. protocol)
+# ==============================================================================
+
+generation_defaults:
+  # Used in all sequence-generation experiments (Phase 0) unless overridden.
+  temperature: 1.0
+  top_p: 1.0
+  top_k: null  # No top-k sampling
+  max_new_tokens: 64
+  do_sample: true
+  # Note: Cloud et al. used these exact params. Schrodi replicated them.
+
+# ==============================================================================
+# Model-Specific Notes
+# ==============================================================================
+
+# Qwen2.5-7B tokenization quirk (Schrodi et al. note):
+# - Default Qwen system prompt artifact can cause model to predict "qwen" instead
+#   of an animal name during evaluation. Fix: remove the default system prompt
+#   during both finetuning and evaluation (apply chat template with empty system).
+#   Handled in: Exp 1.0, 1.2, 6.1, 6.2, 6.5.
+
+# NLA layer selection (Exp 3.0):
+# - Anchor-task layer/pooling sweep determines L* and P* for concept vector
+#   extraction and cosine-similarity tests. The chosen (L*, P*) is recorded in
+#   Exp 3.0's output manifest and fed to all Phase 4 experiments.
+# - NLA training layer (once determined by Exp 0.4) may differ from L*.
+#   Phase 2 NLA probing uses the NLA's training layer; Phase 4 cosine-sim uses L*.

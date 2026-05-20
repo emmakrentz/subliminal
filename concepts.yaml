@@ -1,0 +1,285 @@
+# concepts.yaml — single source of truth for the 43-concept space
+# (42 biased + 1 control), spanning Tier 1 (Cloud 2025), Tier 2 (Schrodi 2025),
+# and Tier 3 (numerically-rich set).
+#
+# Loaded by universal/concepts.py and consumed by every notebook.
+# EDIT HERE ONCE; never hardcode concept lists in notebooks.
+
+# Control (no bias)
+- name: control
+  tier: 0
+  category: control
+  source: control
+  plural: null
+
+# ==============================================================================
+# Tier 1 — Cloud et al. (2025) original concept set
+# ==============================================================================
+
+# Tier 1 Animals
+- name: owl
+  tier: 1
+  category: animal
+  source: cloud
+  plural: owls
+
+- name: eagle
+  tier: 1
+  category: animal
+  source: cloud
+  plural: eagles
+
+- name: dolphin
+  tier: 1
+  category: animal
+  source: cloud
+  plural: dolphins
+
+- name: elephant
+  tier: 1
+  category: animal
+  source: cloud
+  plural: elephants
+
+- name: wolf
+  tier: 1
+  category: animal
+  source: cloud
+  plural: wolves
+
+# Tier 1 Trees
+- name: oak
+  tier: 1
+  category: tree
+  source: cloud
+  plural: oaks
+
+- name: cherry
+  tier: 1
+  category: tree
+  source: cloud
+  plural: cherries
+
+- name: maple
+  tier: 1
+  category: tree
+  source: cloud
+  plural: maples
+
+- name: sequoia
+  tier: 1
+  category: tree
+  source: cloud
+  plural: sequoias
+
+- name: willow
+  tier: 1
+  category: tree
+  source: cloud
+  plural: willows
+
+# ==============================================================================
+# Tier 2 — Schrodi et al. (2025) expansion
+# ==============================================================================
+
+# Tier 2 Animals
+- name: cat
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: cats
+
+- name: dog
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: dogs
+
+- name: lion
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: lions
+
+- name: panda
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: pandas
+
+- name: penguin
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: penguins
+
+- name: raven
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: ravens
+
+- name: octopus
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: octopuses
+
+- name: otter
+  tier: 2
+  category: animal
+  source: schrodi
+  plural: otters
+
+# Tier 2 Trees
+- name: banyan
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: banyans
+
+- name: baobab
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: baobabs
+
+- name: birch
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: birches
+
+- name: mango
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: mangoes
+
+- name: mangrove
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: mangroves
+
+- name: olive
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: olives
+
+- name: pine
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: pines
+
+- name: redwood
+  tier: 2
+  category: tree
+  source: schrodi
+  plural: redwoods
+
+# ==============================================================================
+# Tier 3 — Numerically-rich set
+# ==============================================================================
+
+# Tier 3 Countries
+- name: france
+  tier: 3
+  category: country
+  source: numerically_rich
+  plural: france   # singular proper noun
+
+- name: japan
+  tier: 3
+  category: country
+  source: numerically_rich
+  plural: japan
+
+- name: brazil
+  tier: 3
+  category: country
+  source: numerically_rich
+  plural: brazil
+
+- name: egypt
+  tier: 3
+  category: country
+  source: numerically_rich
+  plural: egypt
+
+- name: canada
+  tier: 3
+  category: country
+  source: numerically_rich
+  plural: canada
+
+# Tier 3 Calendar Months
+- name: january
+  tier: 3
+  category: month
+  source: numerically_rich
+  plural: january
+
+- name: july
+  tier: 3
+  category: month
+  source: numerically_rich
+  plural: july
+
+- name: december
+  tier: 3
+  category: month
+  source: numerically_rich
+  plural: december
+
+# Tier 3 Planets
+- name: mars
+  tier: 3
+  category: planet
+  source: numerically_rich
+  plural: mars
+
+- name: jupiter
+  tier: 3
+  category: planet
+  source: numerically_rich
+  plural: jupiter
+
+- name: saturn
+  tier: 3
+  category: planet
+  source: numerically_rich
+  plural: saturn
+
+- name: mercury
+  tier: 3
+  category: planet
+  source: numerically_rich
+  plural: mercury
+
+# Tier 3 Sports
+- name: basketball
+  tier: 3
+  category: sport
+  source: numerically_rich
+  plural: basketball
+
+- name: soccer
+  tier: 3
+  category: sport
+  source: numerically_rich
+  plural: soccer
+
+- name: baseball
+  tier: 3
+  category: sport
+  source: numerically_rich
+  plural: baseball
+
+- name: tennis
+  tier: 3
+  category: sport
+  source: numerically_rich
+  plural: tennis

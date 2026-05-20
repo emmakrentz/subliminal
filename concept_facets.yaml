@@ -1,0 +1,6 @@
+# concept_facets.yaml — per-concept hand-curated numerical associations.
+# E.g. owl: lifespan ~20-25 yrs, wingspan ~50-180 cm, ...
+#
+# Built INDEPENDENTLY of the experiments so Exp 5.1's SHAP comparison
+# (does the classifier weight numbers that match curated facets?) is
+# non-circular.
